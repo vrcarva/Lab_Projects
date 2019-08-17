@@ -1,3 +1,0 @@
-(fp_lib_table
-  (lib (name NNClib)(type KiCad)(uri ${NNCLIB}/NNClib.pretty)(options "")(descr ""))
-)

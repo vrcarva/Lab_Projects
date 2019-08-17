@@ -1,7 +1,0 @@
-ERC report (2019 January 28, Monday 14:13:21, Encoding UTF8 )
-
-***** Sheet /
-ErrType(3): Pin connected to some others pins but no pin to drive it
-    @(92.71 mm, 161.29 mm): Pin 29 (Power input) of component A1 is not driven (Net 21).
-
- ** ERC messages: 1  Errors 0  Warnings 1
