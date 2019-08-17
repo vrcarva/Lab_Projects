@@ -62,4 +62,4 @@ https://www.filipeflop.com/blog/relogio-rtc-ds1307-arduino/ https://learn.adafru
 
 https://howtomechatronics.com/tutorials/arduino/lcd-tutorial/ http://www.circuitbasics.com/how-to-set-up-an-lcd-display-on-an-arduino/ https://www.baldengineer.com/arduino-lcd-display-tips.html https://maxpromer.github.io/LCD-Character-Creator/
 
-![https://github.com/marcionnc/NNC_FlavioMourao/blob/master/Electronics/Clock_Temp_Monitor/Images/Front_on2.jpg](https://github.com/marcionnc/NNC_FlavioMourao/blob/master/Electronics/Clock_Temp_Monitor/Images/Front_on2.jpg)
+![https://github.com/fgmourao/Lab_Projects/blob/master/Electronics/Clock_Temp_Monitor/Images/Front_on2.jpg](https://github.com/fgmourao/Lab_Projects/blob/master/Electronics/Clock_Temp_Monitor/Images/Front_on2.jpg)
