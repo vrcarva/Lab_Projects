@@ -1,0 +1,544 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WorkflowBuilder Version="2.4.0-preview">
+  <Workflow xmlns:q2="clr-namespace:Bonsai.Dsp;assembly=Bonsai.Dsp" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:q3="clr-namespace:Bonsai.Scripting;assembly=Bonsai.Scripting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:q4="clr-namespace:Bonsai.IO;assembly=Bonsai.System" xmlns:q1="clr-namespace:Bonsai.Vision;assembly=Bonsai.Vision" xmlns="https://bonsai-rx.org/2018/workflow">
+    <Nodes>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q1:FileCapture">
+          <q1:FileName>C:\Users\Flávio  Mourão\Desktop\c57a1_tr.avi</q1:FileName>
+          <q1:PlaybackRate>0</q1:PlaybackRate>
+          <q1:StartPosition>0</q1:StartPosition>
+          <q1:PositionUnits>Frames</q1:PositionUnits>
+          <q1:Loop>false</q1:Loop>
+          <q1:Playing>true</q1:Playing>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q1:Grayscale" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q1:Crop">
+          <q1:RegionOfInterest>
+            <q1:X>88</q1:X>
+            <q1:Y>94</q1:Y>
+            <q1:Width>458</q1:Width>
+            <q1:Height>278</q1:Height>
+          </q1:RegionOfInterest>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q1:Threshold">
+          <q1:ThresholdValue>15</q1:ThresholdValue>
+          <q1:MaxValue>255</q1:MaxValue>
+          <q1:ThresholdType>BinaryInv</q1:ThresholdType>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q1:Smooth">
+          <q1:SmoothType>Gaussian</q1:SmoothType>
+          <q1:Size1>27</q1:Size1>
+          <q1:Size2>19</q1:Size2>
+          <q1:Sigma1>10</q1:Sigma1>
+          <q1:Sigma2>10</q1:Sigma2>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q1:Skeletonization">
+          <q1:DistanceType>L2</q1:DistanceType>
+          <q1:LaplacianAperture>7</q1:LaplacianAperture>
+          <q1:RidgeThreshold>-23.6</q1:RidgeThreshold>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q1:MorphologicalOperator">
+          <q1:Size>
+            <q1:Width>3</q1:Width>
+            <q1:Height>3</q1:Height>
+          </q1:Size>
+          <q1:Anchor>
+            <q1:X>2</q1:X>
+            <q1:Y>2</q1:Y>
+          </q1:Anchor>
+          <q1:Shape>Ellipse</q1:Shape>
+          <q1:Iterations>0</q1:Iterations>
+          <q1:Operation>Open</q1:Operation>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q2:RunningAverage">
+          <q2:Alpha>0.6074074074074074</q2:Alpha>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q1:FindContours">
+          <q1:Mode>ConnectedComponent</q1:Mode>
+          <q1:Method>ChainApproxNone</q1:Method>
+          <q1:Offset>
+            <q1:X>-1</q1:X>
+            <q1:Y>-1</q1:Y>
+          </q1:Offset>
+          <q1:MinArea xsi:nil="true" />
+          <q1:MaxArea xsi:nil="true" />
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q1:BinaryRegionAnalysis" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q1:LargestBinaryRegion" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q1:BinaryRegionExtremes">
+          <q1:Method>MajorAxis</q1:Method>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>Item1</Selector>
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>Item2</Selector>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="ElementIndex" />
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>Index</Selector>
+      </Expression>
+      <Expression xsi:type="Add">
+        <Operand xsi:type="IntProperty">
+          <Value>1</Value>
+        </Operand>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q1:CropPolygon">
+          <q1:Regions>
+            <q1:ArrayOfPoint>
+              <q1:Point>
+                <q1:X>414</q1:X>
+                <q1:Y>234</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>412</q1:X>
+                <q1:Y>250</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>408</q1:X>
+                <q1:Y>266</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>401</q1:X>
+                <q1:Y>281</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>392</q1:X>
+                <q1:Y>295</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>380</q1:X>
+                <q1:Y>307</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>366</q1:X>
+                <q1:Y>316</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>351</q1:X>
+                <q1:Y>323</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>335</q1:X>
+                <q1:Y>327</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>319</q1:X>
+                <q1:Y>329</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>303</q1:X>
+                <q1:Y>327</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>287</q1:X>
+                <q1:Y>323</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>272</q1:X>
+                <q1:Y>316</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>258</q1:X>
+                <q1:Y>307</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>246</q1:X>
+                <q1:Y>295</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>237</q1:X>
+                <q1:Y>281</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>230</q1:X>
+                <q1:Y>266</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>226</q1:X>
+                <q1:Y>250</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>224</q1:X>
+                <q1:Y>234</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>226</q1:X>
+                <q1:Y>218</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>230</q1:X>
+                <q1:Y>202</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>237</q1:X>
+                <q1:Y>187</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>246</q1:X>
+                <q1:Y>173</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>258</q1:X>
+                <q1:Y>161</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>272</q1:X>
+                <q1:Y>152</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>287</q1:X>
+                <q1:Y>145</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>303</q1:X>
+                <q1:Y>141</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>319</q1:X>
+                <q1:Y>139</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>335</q1:X>
+                <q1:Y>141</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>351</q1:X>
+                <q1:Y>145</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>366</q1:X>
+                <q1:Y>152</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>380</q1:X>
+                <q1:Y>161</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>392</q1:X>
+                <q1:Y>173</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>401</q1:X>
+                <q1:Y>187</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>408</q1:X>
+                <q1:Y>202</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>412</q1:X>
+                <q1:Y>218</q1:Y>
+              </q1:Point>
+            </q1:ArrayOfPoint>
+          </q1:Regions>
+          <q1:MaskType>ToZero</q1:MaskType>
+          <q1:FillValue>
+            <q1:Val0>0</q1:Val0>
+            <q1:Val1>0</q1:Val1>
+            <q1:Val2>0</q1:Val2>
+            <q1:Val3>0</q1:Val3>
+          </q1:FillValue>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q1:MaskPolygon">
+          <q1:Regions>
+            <q1:ArrayOfPoint>
+              <q1:Point>
+                <q1:X>172</q1:X>
+                <q1:Y>96</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>170</q1:X>
+                <q1:Y>109</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>167</q1:X>
+                <q1:Y>121</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>162</q1:X>
+                <q1:Y>133</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>154</q1:X>
+                <q1:Y>144</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>145</q1:X>
+                <q1:Y>153</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>135</q1:X>
+                <q1:Y>160</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>123</q1:X>
+                <q1:Y>166</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>110</q1:X>
+                <q1:Y>169</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>98</q1:X>
+                <q1:Y>170</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>85</q1:X>
+                <q1:Y>169</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>72</q1:X>
+                <q1:Y>166</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>60</q1:X>
+                <q1:Y>160</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>50</q1:X>
+                <q1:Y>153</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>41</q1:X>
+                <q1:Y>144</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>33</q1:X>
+                <q1:Y>133</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>28</q1:X>
+                <q1:Y>121</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>25</q1:X>
+                <q1:Y>109</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>23</q1:X>
+                <q1:Y>96</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>25</q1:X>
+                <q1:Y>83</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>28</q1:X>
+                <q1:Y>71</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>33</q1:X>
+                <q1:Y>59</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>41</q1:X>
+                <q1:Y>48</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>50</q1:X>
+                <q1:Y>39</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>60</q1:X>
+                <q1:Y>32</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>72</q1:X>
+                <q1:Y>26</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>85</q1:X>
+                <q1:Y>23</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>97</q1:X>
+                <q1:Y>22</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>110</q1:X>
+                <q1:Y>23</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>123</q1:X>
+                <q1:Y>26</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>135</q1:X>
+                <q1:Y>32</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>145</q1:X>
+                <q1:Y>39</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>154</q1:X>
+                <q1:Y>48</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>162</q1:X>
+                <q1:Y>59</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>167</q1:X>
+                <q1:Y>71</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>170</q1:X>
+                <q1:Y>83</q1:Y>
+              </q1:Point>
+            </q1:ArrayOfPoint>
+          </q1:Regions>
+          <q1:MaskType>ToZeroInv</q1:MaskType>
+          <q1:FillValue>
+            <q1:Val0>1</q1:Val0>
+            <q1:Val1>1</q1:Val1>
+            <q1:Val2>1</q1:Val2>
+            <q1:Val3>1</q1:Val3>
+          </q1:FillValue>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q1:Threshold">
+          <q1:ThresholdValue>14</q1:ThresholdValue>
+          <q1:MaxValue>255</q1:MaxValue>
+          <q1:ThresholdType>BinaryInv</q1:ThresholdType>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q1:MorphologicalOperator">
+          <q1:Size>
+            <q1:Width>3</q1:Width>
+            <q1:Height>3</q1:Height>
+          </q1:Size>
+          <q1:Anchor>
+            <q1:X>2</q1:X>
+            <q1:Y>2</q1:Y>
+          </q1:Anchor>
+          <q1:Shape>Ellipse</q1:Shape>
+          <q1:Iterations>0</q1:Iterations>
+          <q1:Operation>Open</q1:Operation>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q2:RunningAverage">
+          <q2:Alpha>0.6074074074074074</q2:Alpha>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q1:BinaryRegionAnalysis" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q1:Centroid" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q2:Difference">
+          <q2:Order>1</q2:Order>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="q3:PythonTransform">
+        <q3:Script>from System import Math, Single
+
+@returns(float)
+def process(value):
+  if value.X == 0 or value.Y == 0:
+    return 0
+  return 1</q3:Script>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="Zip" />
+      </Expression>
+      <Expression xsi:type="q4:CsvWriter">
+        <q4:FileName>C:\Users\Flávio  Mourão\Desktop\test.csv</q4:FileName>
+        <q4:Append>false</q4:Append>
+        <q4:Overwrite>true</q4:Overwrite>
+        <q4:Suffix>None</q4:Suffix>
+        <q4:IncludeHeader>false</q4:IncludeHeader>
+      </Expression>
+    </Nodes>
+    <Edges>
+      <Edge From="0" To="1" Label="Source1" />
+      <Edge From="1" To="2" Label="Source1" />
+      <Edge From="1" To="17" Label="Source1" />
+      <Edge From="2" To="3" Label="Source1" />
+      <Edge From="2" To="14" Label="Source1" />
+      <Edge From="3" To="4" Label="Source1" />
+      <Edge From="4" To="5" Label="Source1" />
+      <Edge From="5" To="6" Label="Source1" />
+      <Edge From="6" To="7" Label="Source1" />
+      <Edge From="7" To="8" Label="Source1" />
+      <Edge From="8" To="9" Label="Source1" />
+      <Edge From="9" To="10" Label="Source1" />
+      <Edge From="10" To="11" Label="Source1" />
+      <Edge From="11" To="12" Label="Source1" />
+      <Edge From="11" To="13" Label="Source1" />
+      <Edge From="12" To="26" Label="Source3" />
+      <Edge From="13" To="26" Label="Source2" />
+      <Edge From="14" To="15" Label="Source1" />
+      <Edge From="15" To="16" Label="Source1" />
+      <Edge From="16" To="26" Label="Source1" />
+      <Edge From="17" To="18" Label="Source1" />
+      <Edge From="18" To="19" Label="Source1" />
+      <Edge From="19" To="20" Label="Source1" />
+      <Edge From="20" To="21" Label="Source1" />
+      <Edge From="21" To="22" Label="Source1" />
+      <Edge From="22" To="23" Label="Source1" />
+      <Edge From="23" To="24" Label="Source1" />
+      <Edge From="24" To="25" Label="Source1" />
+      <Edge From="25" To="26" Label="Source4" />
+      <Edge From="26" To="27" Label="Source1" />
+    </Edges>
+  </Workflow>
+  <ExtensionTypes>
+    <Type>Bonsai.Dsp.Difference, Bonsai.Dsp, Version=2.4.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Dsp.RunningAverage, Bonsai.Dsp, Version=2.4.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.AddBuilder, Bonsai.Core, Version=2.4.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.IntProperty, Bonsai.Core, Version=2.4.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.IO.CsvWriter, Bonsai.System, Version=2.4.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Reactive.ElementIndex, Bonsai.Core, Version=2.4.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Reactive.Zip, Bonsai.Core, Version=2.4.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Scripting.PythonTransform, Bonsai.Scripting, Version=2.4.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.BinaryRegionAnalysis, Bonsai.Vision, Version=2.4.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.BinaryRegionExtremes, Bonsai.Vision, Version=2.4.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.Centroid, Bonsai.Vision, Version=2.4.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.Crop, Bonsai.Vision, Version=2.4.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.CropPolygon, Bonsai.Vision, Version=2.4.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.FileCapture, Bonsai.Vision, Version=2.4.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.FindContours, Bonsai.Vision, Version=2.4.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.Grayscale, Bonsai.Vision, Version=2.4.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.LargestBinaryRegion, Bonsai.Vision, Version=2.4.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.MaskPolygon, Bonsai.Vision, Version=2.4.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.MorphologicalOperator, Bonsai.Vision, Version=2.4.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.Skeletonization, Bonsai.Vision, Version=2.4.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.Smooth, Bonsai.Vision, Version=2.4.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.Threshold, Bonsai.Vision, Version=2.4.0.0, Culture=neutral, PublicKeyToken=null</Type>
+  </ExtensionTypes>
+</WorkflowBuilder>
