@@ -5,22 +5,14 @@
  Project for monitoring heart rate and rectal temperature during surgery. 
  In addition, the rectal temperature will be used as a control for the thermal blanket heating.
  
-   Building Circuit e changing variables since early December ... some day during late of night. When I gave up on the oximetry sensor (MAX30100) and Lídia almost killed me because I forgot to go back home
-   Listening: Jeff Buckley
-   https://www.youtube.com/watch?v=nxY64rGSMWo 
+   Building Circuit e changing variables - early December 
    
    Add temperature code - 18/12/18 - 22:45
-   Listening: OWLS - Everyone is my friend
-   https://www.youtube.com/watch?v=P1hr_czn3nw&list=PLrfnPjF4lTGOP0qNBa3HN7RS_ds0a74v3&index=1&fbclid=IwAR2xkzpSaEwB_2M94NgqK5mabDLWLSy9f59TwbHfeAPjrToHKx4wQMeAbi8
-
+  
    Fixed interrupt for Temperature / Pulse measurement timer - 28/12/18 - 10:40
-   Listening: ISIS - So did we
-   https://www.youtube.com/watch?v=Awg99tk6vys
-
+  
    Add 5V RELAY for temperature control - 18/01/19 - 7:00
-   Listening: MOGWAI - D to E
-   https://www.youtube.com/watch?v=GmApT-6strc&start_radio=1&list=RDGmApT-6strc
-
+  
 --------------------------------------------------------------------------------
 
 PULSE SENSOR:
