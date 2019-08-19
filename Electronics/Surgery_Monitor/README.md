@@ -6,32 +6,17 @@ NNC / UFMG - since November 2018
 
 UPDATES:   
 
-Building circuit and changing variables since early December ... some day during late of night. When I gave up on the oximetry sensor (MAX30100) and Lídia almost killed me because I forgot to go back home .  
-
-Listening: Jeff Buckley
-
-   https://www.youtube.com/watch?v=nxY64rGSMWo 
-
 -----   
+
 Add temperature code - 18/12/18 - 22:45
 
-Listening: OWLS - Everyone is my friend 
-
-  https://www.youtube.com/watch?v=P1hr_czn3nw
-
 -----
+
 Fixed interrupt for Temperature / Pulse measurement timer - 28/12/18 - 10:40 . 
 
-Listening: ISIS - So did we
-
-   https://www.youtube.com/watch?v=Awg99tk6vys
-
 -----
+
 Add 5V RELAY for temperature control - 18/01/19 - 7:00 . 
-
-Listening: MOGWAI - D to E
-
-   https://www.youtube.com/watch?v=GmApT-6strc&start_radio=1&list=RDGmApT-6strc
 
 --------------------------------------------------------------------------------
 
