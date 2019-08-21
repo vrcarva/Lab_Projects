@@ -10,9 +10,9 @@ I designed another one merging and adapting the pieces<br />
 
 ![https://github.com/fgmourao/Lab_Projects/blob/master/3D%20models/Microscopy_phone_holder/Images/holder.png](https://github.com/fgmourao/Lab_Projects/blob/master/3D%20models/Microscopy_phone_holder/Images/1.png)<br />
 
-![https://github.com/fgmourao/Lab_Projects/blob/master/3D%20models/Microscopy_phone_holder/Images/holder.png](https://github.com/fgmourao/Lab_Projects/blob/master/3D%20models/Microscopy_phone_holder/Images/2.png)<br />
-
 ![https://github.com/fgmourao/Lab_Projects/blob/master/3D%20models/Microscopy_phone_holder/Images/holder.png](https://github.com/fgmourao/Lab_Projects/blob/master/3D%20models/Microscopy_phone_holder/Images/3.png)<br />
+
+![https://github.com/fgmourao/Lab_Projects/blob/master/3D%20models/Microscopy_phone_holder/Images/holder.png](https://github.com/fgmourao/Lab_Projects/blob/master/3D%20models/Microscopy_phone_holder/Images/2.tif)<br />
 
 
 
