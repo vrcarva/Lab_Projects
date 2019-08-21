@@ -1,4 +1,4 @@
-# Rat brain MRI
+# 3D printer - Rat brain MRI
 
 Animal submitted to an electrophysiological record with 32 channels tungsten wires<br />
 Scars can be noticed on the cortex surface.<br />
@@ -12,7 +12,7 @@ Scars can be noticed on the cortex surface.<br />
 ![https://github.com/fgmourao/Lab_Projects/blob/master/3D%20models/Rat_Brain_MRI/1.png](https://github.com/fgmourao/Lab_Projects/blob/master/3D%20models/Rat_Brain_MRI/1.png)<br />
 
 The image acquisition was performed by Flavio Mourao in 01/2017<br />
-Magnet Resonance Center fo Technology (CTPMAG/UFMG)<br />
+Magnet Resonance Center of Technology (CTPMAG/UFMG)<br />
 Neuroscience Research Center (NNC)<br />
 Federal University of Minas Gerais -  Brazil<br />
 
