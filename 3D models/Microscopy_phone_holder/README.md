@@ -8,7 +8,7 @@ based in two different models download from:<br />
 We design another one merging and adapting the pieces<br />
 
 
-![https://github.com/fgmourao/Lab_Projects/blob/master/3D%20models/Microscopy_phone_holder/Images/1.png](https://github.com/fgmourao/Lab_Projects/blob/master/3D%20models/Microscopy_phone_holder/Images/1.png)<br />
+![https://github.com/fgmourao/Lab_Projects/blob/master/3D%20models/Microscopy_phone_holder/Images/holder.png](https://github.com/fgmourao/Lab_Projects/blob/master/3D%20models/Microscopy_phone_holder/Images/holder.png)<br />
 
 
 
