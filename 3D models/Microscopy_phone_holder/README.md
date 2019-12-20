@@ -1,6 +1,7 @@
 #  Camera Phone/Microscope Adapter 
 
-Based on the most common model available on the market :<br />
+Based on the most common model available on the market<br />
+Adapted with Stainless steel cylindrical bar and hex nuts (5mm)<br />
 
 - http://xocany.com/en/accesories/12-universal-cell-phone-adapter-mount-binocular-monocular-telescope-microscope.html<br />
 
