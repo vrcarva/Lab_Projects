@@ -1,18 +1,14 @@
 #  Camera Phone/Microscope Adapter 
 
-Based on two different models downloaded from:<br />
+based on the most common model available on the market :<br />
 
-- www.thingiverse.com/thing:78071<br />
-- www.thingiverse.com/thing:2423994<br />
+- http://xocany.com/en/accesories/12-universal-cell-phone-adapter-mount-binocular-monocular-telescope-microscope.html<br />
 
-I designed another one merging and adapting the pieces<br />
 
 
 ![https://github.com/fgmourao/Lab_Projects/blob/master/3D%20models/Microscopy_phone_holder/Images/holder.png](https://github.com/fgmourao/Lab_Projects/blob/master/3D%20models/Microscopy_phone_holder/Images/1.jpg)<br />
 
 ![https://github.com/fgmourao/Lab_Projects/blob/master/3D%20models/Microscopy_phone_holder/Images/holder.png](https://github.com/fgmourao/Lab_Projects/blob/master/3D%20models/Microscopy_phone_holder/Images/3.jpg)<br />
-
-![https://github.com/fgmourao/Lab_Projects/blob/master/3D%20models/Microscopy_phone_holder/Images/holder.png](https://github.com/fgmourao/Lab_Projects/blob/master/3D%20models/Microscopy_phone_holder/Images/2.jpg)<br />
 
 
 
