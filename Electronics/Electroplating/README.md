@@ -1,4 +1,4 @@
-# Electrodeposition circuit 
+# Circuit for electrodeposition
  
 Small and simple circuit for metal electrodeposition at the electrodes tips.
 Each button represents a possible electrode. Designed for arrays with 16 channels
