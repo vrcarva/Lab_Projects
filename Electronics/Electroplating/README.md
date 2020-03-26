@@ -1,6 +1,6 @@
-# Circuit for electrodeposition
+# Circuit for Electroplating
  
-Small and simple circuit for metal electrodeposition at the electrodes tips.
+Small and simple circuit for Electroplating at the electrodes tips.
 Each button represents a possible electrode. Designed for arrays with 16 channels
 
 ![https://github.com/fgmourao/Lab_Projects/blob/master/Electronics/Electroplating/Images/3.png](https://github.com/fgmourao/Lab_Projects/blob/master/Electronics/Electroplating/Images/3.png)
