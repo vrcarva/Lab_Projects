@@ -1,5 +1,4 @@
 Codes written during my postdoctoral period at the University of Leicester - UK (2017 -2018)
-Behavior analysis in a virtual reality environment.
 
 Project: Concept representations in the mouse hippocampus in a virtual environment navigation task.
 Supervisor: Rodrigo Quian Quiroga - https://www2.le.ac.uk/centres/csn
