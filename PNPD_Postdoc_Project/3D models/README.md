@@ -1,6 +1,6 @@
 # 3D printing solutions
 
-New informations, images and a tutorials will be attached soon.
+New informations, images and tutorials will be attached soon.
 
 - Amplifier Box to LM358 - low power dual operational amplifier integrated circuit<br />
 - Anesthetic mask for gas anesthesia<br />

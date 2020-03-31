@@ -6,6 +6,6 @@ The relevance of sensory cues constantly changes in natural environments, and th
 Previous papers : Lockmann & Mourao, 2017         ->  https://doi.org/10.1152/jn.00293.2017<br />
                              Amaral-Junior & Mourao, 2019   ->  https://doi.org/10.3389/fnins.2019.01193<br />
 
-![https://github.com/fgmourao/Lab_Projects/blob/master/PNPD_Project/Images/1.png](https://github.com/fgmourao/Lab_Projects/blob/master/PNPD_Project/Images/1.png)
+![https://github.com/fgmourao/Lab_Projects/blob/master/PNPD_Postdoc_Project/Images/1.png](https://github.com/fgmourao/Lab_Projects/blob/master/PNPD_Postdoc_Project/Images/1.png)
 
 Local field potential oscillations follow the amplitude envelope of an amplitude-modulated tone, originating a neural response called the steady-state evoked potential.
