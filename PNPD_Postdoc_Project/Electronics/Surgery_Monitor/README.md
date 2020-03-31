@@ -106,4 +106,4 @@ SDA pin   -> Arduino Analog 4 or the dedicated SDA pin .
 SCL pin   -> Arduino Analog 5 or the dedicated SCL pin . 
 
 
-![https://github.com/fgmourao/Lab_Projects/blob/master/Electronics/Surgery_Monitor/Images/Monitor_protoOLED.png](https://github.com/fgmourao/Lab_Projects/blob/master/Electronics/Surgery_Monitor/Images/Monitor_protoOLED.png)
+![https://github.com/fgmourao/Lab_Projects/blob/master/PNPD_Postdoc_Project/Electronics/Surgery_Monitor/Images/Monitor_protoOLED.png](https://github.com/fgmourao/Lab_Projects/blob/master/PNPD_Postdoc_Project/Electronics/Surgery_Monitor/Images/Monitor_protoOLED.png)
