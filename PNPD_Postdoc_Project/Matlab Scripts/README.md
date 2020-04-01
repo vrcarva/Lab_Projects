@@ -22,7 +22,12 @@ Pre_processing.m<br />
 
 CorCov.m
 - Perform Correlation and Covariance Matrices betwwen channels <br />
-                
+
+sFFT_spectrogram.m
+- Short-time FFT by matlab built function spectrogram <br />
+- Organizing data trials from spectrogram<br />  
+- Make some plots<br />        
+
 All code by Flavio Mourao. Nucleo de Neurociencias - NNC<br />
 email: mourao.fg@gmail.com<br />
 Universidade Federal de Minas Gerais<br />

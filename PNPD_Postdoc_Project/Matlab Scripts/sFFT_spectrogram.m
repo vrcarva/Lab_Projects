@@ -36,7 +36,7 @@ end
 
 clear ('ii','jj')
 
-%% Organizing trials data from spectrogram. 
+%% Organizing data trials from spectrogram. 
 
 % Define indexes
 
