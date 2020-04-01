@@ -5,16 +5,16 @@
 % Universidade Federal de Minas Gerais. 
 
 % Started in:  03/2020
-% Last update: 03/2020
+% Last update: 04/2020
 
 %% Follow the scripts below sequentially
 
 % 1)
-Extracting_raw_LFPs_and_events.m
+Extracting_raw_LFPs_and_events
 % 2)
-F_filter.m
+F_filter
 % 3)
-Pre_processing.m
+Pre_processing
 
 %% Check frequency band based on data cursor/cursor info
 
