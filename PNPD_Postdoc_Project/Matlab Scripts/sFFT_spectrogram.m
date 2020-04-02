@@ -36,9 +36,9 @@ end
 
 clear ('ii','jj')
 
-%% Organizing data trials from spectrogram. 
 
-% Define indexes
+
+%% Define indexes  from spectrogram
 
 % rows -> trials
 % columns 1 -> time before sound epoch 
@@ -47,15 +47,17 @@ clear ('ii','jj')
 % columns 4 -> time after sound epoch
 
 % Sound epochs
-short_fft.time_idx_t = (data.events.idx_t)';
-short_fft.time_idx(:,2:3) = reshape(dsearchn(short_fft.time',short_fft.time_idx_t(:)),5,2);
-short_fft.time_idx_t = short_fft.time_idx_t';  % just to keep the same format m x n
+short_fft.time_idx_t = (data.events.idx_t(:));
+short_fft.time_idx(:,2:3) = reshape(dsearchn(short_fft.time',short_fft.time_idx_t),5,2);
+short_fft.time_idx_t = reshape(short_fft.time_idx_t,5,2);  % just to keep the same format m x n
 
 % Pre sound
 short_fft.time_idx(:,1) = dsearchn(short_fft.time',(short_fft.time_idx_t(:,1) - parameters.Tpre));
 
 % Pos sound
 short_fft.time_idx(:,4) = dsearchn(short_fft.time',(short_fft.time_idx_t(:,2) + parameters.Tpos));
+
+%% Organizing trials data from spectrogram 
 
 % Concatenate trial epochs (pre sound, sound, pos sound) in fourth dimensions
 % lines: frequencies / columns: time / third dimension: channels / fourth dimension: trials
@@ -70,7 +72,6 @@ end
 
 % Time vector to plot
 short_fft.time_trials = (linspace(-parameters.Tpre,parameters.trialperiod+parameters.Tpos,size(short_fft.data_trials,2)));
-
 
 % Concatenate trial epochs (pre sound) in fourth dimensions
 % lines: frequencies / columns: time / third dimension: channels / fourth dimension: trials
@@ -104,6 +105,30 @@ short_fft.time_trials_sound = (linspace(0,parameters.trialperiod,size(short_fft.
 
 clear ('temp','ii','jj')
 
+%% Plot to check full session. Channels per substrate 
+
+% Choose channel
+ch = 14:17;
+
+%Define frequencies to plot in each subplot
+steps = diff(short_fft.freq); % according to the fft time window
+
+short_fft.freq2plot = 40:steps(1):70;
+closestfreq = dsearchn(short_fft.freq,short_fft.freq2plot');
+
+figure
+
+for ii = 1:length(ch)
+    subplot(length(ch),1,ii)
+    %suptitle({'Amplitude Spectrum via short-window FFT';['(window = ' num2str(short_fft.timewin./1000) 's' ' - ' 'overlap = ' num2str(short_fft.overlap) '%)']}) 
+    set(gcf,'color','white')
+
+    contourf(short_fft.time,short_fft.freq(closestfreq),abs(short_fft.data(closestfreq,:,ch(ii))),80,'linecolor','none');
+    xlabel('Time (s)','FontSize',14), ylabel('Frequency (Hz)','FontSize',14)
+    xlim([short_fft.time(1) 600])
+    colorbar
+    caxis([0 1.5*10^5])
+end 
 
 %% Plot to check - Pre sound and Sound period
 
@@ -277,4 +302,6 @@ caxis([0 1.5*10^5])
 
 clear ('steps','closestfreq','ii','s','jj');
 
-%%
+%% last update 01/04/2020 - 18:00
+%  listening: Mogwai - Every Country`s Sun
+

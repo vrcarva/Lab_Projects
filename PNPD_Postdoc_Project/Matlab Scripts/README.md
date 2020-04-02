@@ -20,13 +20,17 @@ Pre_processing.m<br />
 - Concatenate the modulator signal as channel 1<br />
 - Organize data by trials <br />
 
-CorCov.m
-- Perform Correlation and Covariance Matrices betwwen channels <br />
-
 sFFT_spectrogram.m
 - Short-time FFT by matlab built function spectrogram <br />
-- Organizing data trials from spectrogram<br />  
-- Make some plots<br />        
+- Organizing data trials from the spectrogram<br />  
+- Make some plots<br /> 
+
+sFFT_stats.m
+- Performs descriptive analysis from the spectrogram <br />
+
+CorCov.m
+- Performs Correlation and Covariance Matrices betwwen channels <br />
+
 
 All code by Flavio Mourao. Nucleo de Neurociencias - NNC<br />
 email: mourao.fg@gmail.com<br />

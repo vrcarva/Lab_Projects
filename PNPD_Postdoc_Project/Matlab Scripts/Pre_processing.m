@@ -3,9 +3,9 @@
 
 %   - Define sound epochs
 %   - Organize channels according to the electrodes map
-%   - Estimate the CS modulating signal
+%   - Estimate the CS modulating signal from digital pulses
 %   - Concatenate the modulator signal as channel 1
-%   - Organize trial Data
+%   - Organize data by trials
 
 %                               - CHANNELS MAP - 
 
