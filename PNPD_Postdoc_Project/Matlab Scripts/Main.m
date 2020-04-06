@@ -12,21 +12,19 @@
 % 1)
 Extracting_raw_LFPs_and_events
 % 2)
-F_filter
-% 3)
 Pre_processing
 
 %% Check frequency band based on data cursor/cursor info
 
-%f = 1/(cursor_info(1,1).Position(1,1)-cursor_info(1,2).Position(1,1));
+% f = 1/(cursor_info(1,1).Position(1,1)-cursor_info(1,2).Position(1,1));
 
 %% Filters - Plot to check
 
 % Choose filter band
-ff = 4;
+ff = 10;
 
 % choose a channel to plot
-ch = 7;
+ch = 3;
 
 figure
 set(gcf,'color','white')
@@ -57,10 +55,13 @@ clear('a','ch')
 %% Plot to check all channels
 
 % Choose filter band
-ff = 2;
+ff = 10;
 
 % Choose channels to plot
-channels = 1:17;
+channels = 1:4;
+
+% factor
+factor = (channels)'*500;
 
 % Set Figure
 figure
@@ -69,38 +70,41 @@ box 'off'
 hold on
 
 % Select fields with data
-r = plot(data.timev, bsxfun(@plus, data.data{1, ff}(channels,:), (channels)'*200))%,'Color','[0.7, 0.7, 0.7]');
+r = plot(data.timev, bsxfun(@plus, data.data{1, ff}(channels,:), factor))%,'Color','[0.7, 0.7, 0.7]');
 a = gca; % Get axis
 
 % Plot sound epochs
-I = plot([data.events.idx_t(:)';data.events.idx_t(:)'], [zeros(1,length(data.events.idx_t(:)));a.YLim(2)*(ones(1,length(data.events.idx_t(:))))],'Color',[0.6350, 0.0780, 0.1840]','linew',2);
+%I = plot([data.events.idx_t(:)';data.events.idx_t(:)'], [zeros(1,length(data.events.idx_t(:)));a.YLim(2)*(ones(1,length(data.events.idx_t(:))))],'Color',[0.6350, 0.0780, 0.1840]','linew',2);
 
 % Set Axis
 a.YColor = 'w';
 a.YTick = [];
-a.XLim = [0 data.timev(end)];
+a.XLim = [10 180];
 xlabel('Time (s)')
 
 % Clear trash
-clear ('channels','filter','substrate','session','str','sub','r','a','I','lh','lh_pos');
+clear ('factor','channels','filter','substrate','session','str','sub','r','a','I','lh','lh_pos');
 
 %% Plot to check all channels separately
 
 figure
 
 % Choose filter band
-ff = 1;
+ff = 10;
 
 % Choose channels to plot
-channels = 1:17;
+channels = 1:4;
 
 
 for ii = 1:length(channels)
     subplot(4,5,ii)
     plot(data.timev,data.data{1,ff}(ii,:),'k')
     
-    ylim([min(data.data{1,ff}(ii,:)) max(data.data{1,ff}(ii,:))])
+    %ylim([min(data.data{1,ff}(ii,:)) max(data.data{1,ff}(ii,:))])
+    ylim([-500 500])
     xlim([0 round(max(data.timev))]);
+    xlim([0 20]);
+
     %yticklabels({'-1','0','1'})
     title(['channel ',num2str(ii)])
     xlabel('Time (s)')

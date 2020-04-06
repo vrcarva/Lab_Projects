@@ -8,9 +8,6 @@
 
 %%
 
-% choose data
-
-
 % Choose filter band
 ff = 1;
 

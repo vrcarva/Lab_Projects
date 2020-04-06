@@ -130,8 +130,35 @@ clear ('picosTSidxs', 'valesTSidxs', 'phiRec', 'xphi', 'yphi', 'qp', 'yrec','ii'
 
 % Concatenate the modulator signal as channel 1 in the decimated data variable
 data.data{1,1} = [data.mod';data.data{1, 1}];
+%% Filter Data
+% Filtering by hand (especially the modulated envelope) and/or
+% by the Johnzinho's function (based on EEG_lab): 'fun_myfilters.m' 
+
+% Script:
+F_filter
+
+% The 53.71 modulated frequency it will always be positioned 
+% in "data.data" cell column 2. The other filters will follow 
+% the subsequent columns
+
+% Choose the frequencies cutoff in the F_filter script
+
+%                              cell columns:
+% deltacutoff     = [1 3];         % 3
+% thetacutoff1    = [4 8];         % 4
+% thetacutoff2    = [9 12];        % 5
+% alphacutoff     = [13 15];       % 6
+% betacutoff      = [16 31];       % 7
+% lowgammacutoff  = [30 50];       % 8
+% highgammacutoff = [62 100];      % 9
+% extracutoff1    = [150 200];     % 10
+% extracutoff2    = [1 100];       % 11
+% modulator       = [51.71 55.71]; % 12
+% extracutoff3    = [300 3000];    % 13 
 
 %% Organizing Trial Data
+
+% Cell columns --> frequencies cutoff according " F_filter.m "
 
 % Initializing trial periods
 data.data_trials     = cell(parameters.NTrials,length(data.data));

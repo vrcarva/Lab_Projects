@@ -1,42 +1,58 @@
 %% Extracting raw LFPs and Events from Open Ephys
 
-% Load channels and events
+% - extract, organize and save data from Intan/Open Ephys:  *.continuous and  *.events
+% - Required function: load_open_ephys_data.m (https://github.com/open-ephys/analysis-tools)<br />
 
-% Down sampling data:
-% Cell Variable "data.data" -> Columns: frequency bands.
-%                              First cell column is the decimated raw signal.
-%                               - Rows: Channels x Columns: Time
+% - Option: down sampling data
+
+% - Outputs:
+
+%   "data" 
+%   -> data.raw       -> raw data. Original sample rate
+%                        Columns: Channels x  Rows:Time
+%   -> data.timev_raw -> time vector. Original sample rate
+%   -> data.data      -> Cell -> First cell column: signal decimated.
+%                        Each cell: Rows: Channels x Columns: Time
+%   -> data.timev     -> time vector. Signal decimated
+
+%   -> events         -> External TTls. Events that are detected in a continuous data stream
+%                        _ Supports up to 8 inputs. For digital inputs - labels: 0 - 7. 
+%                        _ ts -> All timestamps
+%                        _ ts_1 / ts_2 .... -> sorted according to the labels
+
+%   "parameters"      ->  Record informations and parameters
+
 
 % by Flavio Mourao. Nucleo de Neurociencias - NNC.
 % email: mourao.fg@gmail.com
 % Universidade Federal de Minas Gerais. 
 % Started in:  11/2019
-% Last update: 03/2020
+% Last update: 04/2020
 
 %%
 % Load files (*.continuous -> LFP and *.events -> Events)
-[FilesLoaded,data.Path] = uigetfile({'*.continuous; *.events'},'MultiSelect', 'on'); % Define file type *.*
+[FilesLoaded,parameters.Path] = uigetfile({'*.continuous; *.events'},'MultiSelect', 'on'); % Define file type *.*
 
 % Define a struct with files informations from dir organization'
 % Beware ! This organization changes according to the operating system.
-data.FilesLoaded = repmat(struct('name',[],'folder',[],'date',[],'bytes',[],'isdir',[],'datenum',[]), 1, length(FilesLoaded));
+parameters.FilesLoaded = repmat(struct('name',[],'folder',[],'date',[],'bytes',[],'isdir',[],'datenum',[]), 1, length(FilesLoaded));
 
 % Filename can be organize as a single char or a group char in a cell depending on the number os files selected
 if ischar(FilesLoaded)
-   data.FilesLoaded = dir(fullfile(data.Path, FilesLoaded)); % condition for a single file selected       
+   parameters.FilesLoaded = dir(fullfile(parameters.Path, FilesLoaded)); % condition for a single file selected       
 else    
    for ii = 1:length(FilesLoaded) % loop over multiple files selected
-       data.FilesLoaded(ii) = dir(fullfile(data.Path, char(FilesLoaded(ii))));
+       parameters.FilesLoaded(ii) = dir(fullfile(parameters.Path, char(FilesLoaded(ii))));
    end 
 end  
 
 % Optional - Uncomment the line below for sort data. Channels based on a specific file properties. 
-% data.Channels = nestedSortStruct(data.FilesLoaded,'name',1); % Perform a nested sort of a struct array based on multiple fields. 
+% data.Channels = nestedSortStruct(parameters.FilesLoaded,'name',1); % Perform a nested sort of a struct array based on multiple fields. 
                                                                  % >>> https://uk.mathworks.com/matlabcentral/fileexchange/28573-nested-sort-of-structure-arrays?focused=5166120&tab=function
 
 %% Choose factor to LFP down sampling and number of channels recorded
 % - Manually - 
-% parameters.down_sampling = 6; 
+% parameters.downsampling = 6; 
 % parameters.nch = 16;
 
 % - Request from user -
@@ -47,7 +63,7 @@ default_input = {'6', '16'};
 
 input = inputdlg(prompt,dlgtitle,dims,default_input); %gui
 
-parameters.down_sampling = str2double(input{1,1});
+parameters.downsampling = str2double(input{1,1});
 parameters.nch = str2double(input{2,1});
 
 clear ('prompt','dlgtitle','dims','default_input','input')
@@ -56,9 +72,9 @@ clear ('prompt','dlgtitle','dims','default_input','input')
 % Required function: load_open_ephys_data.m
 % https://github.com/open-ephys/analysis-tools
 
-for jj = 1:length(data.FilesLoaded)
-    baseFileName = data.FilesLoaded(jj).name;
-    fullFileName = fullfile(data.Path,baseFileName);
+for jj = 1:length(parameters.FilesLoaded)
+    baseFileName = parameters.FilesLoaded(jj).name;
+    fullFileName = fullfile(parameters.Path,baseFileName);
     
     %Identify the file extension
     [~, ~, fExt] = fileparts(baseFileName);
@@ -85,17 +101,17 @@ for jj = 1:length(data.FilesLoaded)
                 data.raw = detrend(data_temp, 'constant');  % Raw data           
                 parameters.header = info.header;            % Data File Header
                  
-                % parameters.down_sampling with decimate function
+                % parameters.downsampling with decimate function
                 % data - Rows: Channels x Columns: Time
-                data(1,1).data{1,1}  = zeros(parameters.nch, ceil(length(data.raw)/parameters.down_sampling));
-                data.data{1,1}(jj,:) = decimate(data.raw,parameters.down_sampling); % parameters.down_sampling with Matlab decimate function
+                data(1,1).data{1,1}  = zeros(parameters.nch, ceil(length(data.raw)/parameters.downsampling));
+                data.data{1,1}(jj,:) = decimate(data.raw,parameters.downsampling); % parameters.downsampling with Matlab decimate function
                                            
                 % Organize parameters according to the downsampling information
-                parameters.srate  = info.header.sampleRate./parameters.down_sampling;  % Sampling frequency after downsamplig(Hz)
-                parameters.header.downsampling = parameters.down_sampling; 
+                parameters.srate  = info.header.sampleRate./parameters.downsampling;  % Sampling frequency after downsamplig(Hz)
+                parameters.header.downsampling = parameters.downsampling; 
                 
                 % Normalizing time vector - down sampling data
-                data.timev  = (data.timev_raw(1:parameters.down_sampling:end)) - min(data.timev_raw);  % Time stamp (sec)
+                data.timev  = (data.timev_raw(1:parameters.downsampling:end)) - min(data.timev_raw);  % Time stamp (sec)
           
         else 
             
@@ -103,9 +119,10 @@ for jj = 1:length(data.FilesLoaded)
                 % Rows: Channels x Columns: Time
                 % Remove linear trend (function 'detrend')
                 data.raw(:,jj)  = detrend(load_open_ephys_data(fullFileName),'constant'); % Raw data
-                data.data{1,1}(jj,:) = decimate(data.raw(:,jj),parameters.down_sampling);            % parameters.down_sampling with Matlab decimate function
+                data.data{1,1}(jj,:) = decimate(data.raw(:,jj),parameters.downsampling);            % parameters.downsampling with Matlab decimate function
       
         end
+
         
         % Case for load events
          
@@ -117,33 +134,31 @@ for jj = 1:length(data.FilesLoaded)
         % Load datafiles (*.continuous), timestamps e record info.
         [data.events.labels, data.events.ts, parameters.events.info] = load_open_ephys_data(fullFileName);
         
+        % Sort Events
+        % Trigger/label 1
+        label1 = 0;
+
+        % Trigger/label 2 
+        label2 = 1;
+
+        % Sort timestamps
+        % Label 1
+        data.events.ts_1 = data.events.ts(data.events.labels(:,1)==label1);
+
+        % Label 2
+        data.events.ts_2 = data.events.ts(data.events.labels(:,1)==label2);
+      
     end
 end                                                   
 
-clear ('baseFileName','channel','parameters.down_sampling','fExt','FilesLoaded','fullFileName','ii','data_temp','info','jj');                                                     
+clear ('label1', 'label2','baseFileName','channel','parameters.downsampling','fExt','FilesLoaded','fullFileName','ii','data_temp','info','jj');                                                     
 
 fprintf('\n Done. \n');
 
-%% Sort Events
-
-% Trigger/label 1
-label1 = 0;
-
-% Trigger/label 2 
-label2 = 1;
-
-% Sort timestamps
-% Label 1
-data.events.ts_1 = data.events.ts(data.events.labels(:,1)==label1);
-
-% Label 2
-data.events.ts_2 = data.events.ts(data.events.labels(:,1)==label2);
-
-clear ('label1', 'label2')
 
 %% Save data (-v7.3 flag to store variables > 2GB with compression)
 
-% save('M','data','-v7.3')
+%save('G1_Blue_T_ch16_30k')
 
-%% last update 30/03/2020 - 20:50am
+%% last update 02/04/2020
 %  listening: Set Fire To Flames - Fading Lights Are Fading

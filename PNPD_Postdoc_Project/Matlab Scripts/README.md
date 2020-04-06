@@ -31,6 +31,8 @@ sFFT_stats.m
 CorCov.m
 - Performs Correlation and Covariance Matrices betwwen channels <br />
 
+Hilbert_phase.m
+- Phase analyses based on Hilbert Transform. Phase Coherence / Phase lock value (PLV) <br />
 
 All code by Flavio Mourao. Nucleo de Neurociencias - NNC<br />
 email: mourao.fg@gmail.com<br />

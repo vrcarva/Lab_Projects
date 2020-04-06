@@ -1,5 +1,5 @@
 %% Filter Data
-% filtering by hand (especially the modulated envelope) and/or
+% Filtering by hand (especially the modulated envelope) and/or
 % by the Johnzinho's function (based on EEG_lab): 'fun_myfilters.m' 
 
 
@@ -13,7 +13,7 @@
 %  Building the parameters.filter by hand avoided deformations to 53.71 modulated frequency. 
 %  Furthermore, it guarantees smooth edges in the CS modulating transitions.
 
-% Obs. this parameters.filter will only be used for comparisons within the band of 51.71Hz - 55.71Hz
+% Obs. this parameters.filter will only be used for comparisons within 53.71 modulated frequency.
 
 % Specify nyquist frequency
 parameters.nyquistS = parameters.srate/2;
@@ -57,6 +57,8 @@ legend('boxoff')
 
 %% Apply parameters.filter to the data
 
+% The 53.71 modulated frequency it will always be positioned in "data.data" cell column 2
+
 for jj = 1:size(data.data{1,1},1)
     data.data{1,2}(jj,:) = filtfilt(parameters.filter.parameters.filterweights{1},1,double(data.data{1,1}(jj,:)));
 end
@@ -65,35 +67,39 @@ clear('jj')
 
 %% Filter bands by fun_myfilters.m
 
-% parameters.parameters.filter.deltacutoff     = [1 3];         % 3
-% parameters.parameters.filter.thetacutoff     = [4 12];        % 4
-% parameters.parameters.filter.alphacutoff     = [13 15];       % 5
-% parameters.parameters.filter.betacutoff      = [16 31];       % 6
-% parameters.parameters.filter.lowgammacutoff  = [30 58];       % 7
-% parameters.parameters.filter.highgammacutoff = [62 100];      % 8
-% parameters.parameters.filter.extracutoff1    = [150 200];     % 9
-% parameters.parameters.filter.extracutoff2    = [1 100];       % 10
-% parameters.parameters.filter.extracutoff3    = [300 3000];    % 11
-% parameters.parameters.filter.modulator       = [51.71 55.71]; % 12
-% 
-% % each cell --> columns: parameters.filters according to the above order 
-% 
-% for jj = 1:size(data.data{1,1},1)
-% 
-%     data.data{1,3}(jj,:)  = fun_myparameters.filters(data.data{1,1}(jj,:),parameters.srate,parameters.parameters.filter.deltacutoff,'iir','1');
-%     data.data{1,4}(jj,:)  = fun_myparameters.filters(data.data{1,1}(jj,:),parameters.srate,parameters.parameters.filter.thetacutoff,'iir','1');
-%     data.data{1,5}(jj,:)  = fun_myparameters.filters(data.data{1,1}(jj,:),parameters.srate,parameters.parameters.filter.alphacutoff,'iir','1');
-%     data.data{1,6}(jj,:)  = fun_myparameters.filters(data.data{1,1}(jj,:),parameters.srate,parameters.parameters.filter.betacutoff,'iir','1');
-%     data.data{1,7}(jj,:)  = fun_myparameters.filters(data.data{1,1}(jj,:),parameters.srate,parameters.parameters.filter.lowgammacutoff,'iir','1');
-%     data.data{1,8}(jj,:)  = fun_myparameters.filters(data.data{1,1}(jj,:),parameters.srate,parameters.parameters.filter.highgammacutoff,'iir','1');
-%     data.data{1,9}(jj,:)  = fun_myparameters.filters(data.data{1,1}(jj,:),parameters.srate,parameters.parameters.filter.extracutoff1,'iir','1');
-%     data.data{1,10}(jj,:) = fun_myparameters.filters(data.data{1,1}(jj,:),parameters.srate,parameters.parameters.filter.extracutoff2,'iir','1');
-%     data.data{1,11}(jj,:) = fun_myparameters.filters(data.data{1,1}(jj,:),parameters.srate,parameters.parameters.filter.extracutoff3,'iir','1');   
-%     data.data{1,12}(jj,:) = fun_myparameters.filters(data.data{1,1}(jj,:),parameters.srate,parameters.parameters.filter.modulator,'iir','1');   
-% 
-% end
-% 
-% clear('jj')
+% Define frequencies cutoff
+
+parameters.filter.deltacutoff     = [1 3];         % 3
+parameters.filter.thetacutoff1    = [4 8];         % 4
+parameters.filter.thetacutoff2    = [9 12];        % 5
+parameters.filter.alphacutoff     = [13 15];       % 6
+parameters.filter.betacutoff      = [16 31];       % 7
+parameters.filter.lowgammacutoff  = [30 50];       % 8
+parameters.filter.highgammacutoff = [62 100];      % 9
+parameters.filter.extracutoff1    = [150 200];     % 10
+parameters.filter.extracutoff2    = [1 100];       % 11
+parameters.filter.modulator       = [51.71 55.71]; % 12
+%parameters.filter.extracutoff3    = [300 3000];    % 13
+
+% Each cell --> columns: parameters.filters according to the above order 
+
+for jj = 1:size(data.data{1,1},1)
+
+    data.data{1,3}(jj,:)  = fun_myfilters(data.data{1,1}(jj,:),parameters.srate,parameters.filter.deltacutoff,'iir','1');
+    data.data{1,4}(jj,:)  = fun_myfilters(data.data{1,1}(jj,:),parameters.srate,parameters.filter.thetacutoff1,'iir','1');
+    data.data{1,5}(jj,:)  = fun_myfilters(data.data{1,1}(jj,:),parameters.srate,parameters.filter.thetacutoff2,'iir','1');    
+    data.data{1,6}(jj,:)  = fun_myfilters(data.data{1,1}(jj,:),parameters.srate,parameters.filter.alphacutoff,'iir','1');
+    data.data{1,7}(jj,:)  = fun_myfilters(data.data{1,1}(jj,:),parameters.srate,parameters.filter.betacutoff,'iir','1');
+    data.data{1,8}(jj,:)  = fun_myfilters(data.data{1,1}(jj,:),parameters.srate,parameters.filter.lowgammacutoff,'iir','1');
+    data.data{1,9}(jj,:)  = fun_myfilters(data.data{1,1}(jj,:),parameters.srate,parameters.filter.highgammacutoff,'iir','1');
+    data.data{1,10}(jj,:) = fun_myfilters(data.data{1,1}(jj,:),parameters.srate,parameters.filter.extracutoff1,'iir','1');
+    data.data{1,11}(jj,:) = fun_myfilters(data.data{1,1}(jj,:),parameters.srate,parameters.filter.extracutoff2,'iir','1');
+    data.data{1,12}(jj,:) = fun_myfilters(data.data{1,1}(jj,:),parameters.srate,parameters.filter.modulator,'iir','1');   
+    % data.data{1,13}(jj,:) = fun_myfilters(data.data{1,1}(jj,:),parameters.srate,parameters.filter.modulator,'iir','1');   
+
+end
+
+clear('jj')
 
 %% last update 30/03/2020 - 21:22
 %  listening: Grouper - Heavy Water/I'd Rather Be Sleeping

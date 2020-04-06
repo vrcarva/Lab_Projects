@@ -108,7 +108,7 @@ clear ('temp','ii','jj')
 %% Plot to check full session. Channels per substrate 
 
 % Choose channel
-ch = 14:17;
+ch = 16;
 
 %Define frequencies to plot in each subplot
 steps = diff(short_fft.freq); % according to the fft time window
