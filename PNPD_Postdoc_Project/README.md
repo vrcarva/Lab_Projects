@@ -11,4 +11,4 @@ Amaral-Junior & Mourao, 2019   ->  https://doi.org/10.3389/fnins.2019.01193<br /
 
 ![https://github.com/fgmourao/Lab_Projects/blob/master/PNPD_Postdoc_Project/Images/1.png](https://github.com/fgmourao/Lab_Projects/blob/master/PNPD_Postdoc_Project/Images/1.png)
 
-Local field potential oscillations follow the amplitude envelope of an amplitude-modulated tone, originating a neural response called the steady-state evoked potential.
+Midbrain local field potential oscillations follow the amplitude envelope of an amplitude-modulated tone, originating a neural response called the steady-state evoked potential.
