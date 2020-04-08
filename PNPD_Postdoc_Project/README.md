@@ -2,6 +2,11 @@
 
 My main project carried out in the lab<br />
 Postdoctoral researcher - PNPD/CAPES. Brazil
+
+Flavio Mourao. Nucleo de Neurociencias - NNC<br />
+email: mourao.fg@gmail.com<br />
+Universidade Federal de Minas Gerais<br />
+Brazil<br />
  
 The relevance of sensory cues constantly changes in natural environments, and the adaptive behavior of animals depends on their ability to dynamically modulate the encoding of relevant stimuli. During auditory perception, the coordinated activity of the neuronal assemblies encoding acoustic stimuli results in oscillatory patterns of local field potential (LFP) . Over the last several years, it has been reported that auditory learning modifies the encoding of behaviorally relevant sounds and influences LFP oscillations in different auditory brain areas. In auditory fear conditioning (AFC), pairing an auditory conditioned stimulus (CS) with a foot shock modifies the neural oscillations in the brain areas involved in CS processing. For example, AFC enhances gamma oscillations in the auditory cortex  and increases entorhinal cortex-amygdala coherence in the gamma frequency range. The IC is a major relay for the auditory information ascending to the cortex and amygdala  and is also a target of feedback projections from these regions . However, whether AFC modifies LFP oscillations associated with CS processing in the cortical-limbic structures is unknown
 

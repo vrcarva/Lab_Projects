@@ -13,7 +13,7 @@ Extracting_LFPs_and_Events.m<br />
 F_filter.m<br />
 - It filters the signal by two options: <br />
    _ Filter with parameters defined manually. Matlab buil function: filtfilt.m<br />
-   _ Filter function made by VRCarva (https://github.com/vrcarva) based on EEG_lab: 'fun_myfilters.m' <br />
+   _ Define parameters to 'fun_myfilters.m'.  Filter made by VRCarva (https://github.com/vrcarva) based on EEG_lab: <br />
    
 Pre_processing.m<br />
 - Define sound epochs<br />
