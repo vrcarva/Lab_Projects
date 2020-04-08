@@ -73,14 +73,14 @@ clear ('ch_order1','ch_order2','ch_order3','ch_order4');
 % odd columns : trial start
 % even columns: trial stop
 
-% data.events.ts_1 --> Video Frames
+% data.events.ts_sort{1,1} --> Video Frames
 % Video frames were counted by Bonsai software then I send a sequence of numbers were sent to an Arduino via serial port.
 % So,Arduino created packages at every 10 frames and each package sent a digital signal that was recorded by openephys.
-data.events.ts_vid = data.events.ts_1; % in seconds 
+data.events.ts_vid = data.events.ts_sort{1,1}; % in seconds 
 
-% data.events.ts_1 --> CS modulating frequency
+% data.events.ts_sort{1,2} --> CS modulating frequency
 % Timestamps locked to the peaks and valleys of the CS modulating frequency 
-data.events.ts_mod = data.events.ts_2; % in seconds
+data.events.ts_mod = data.events.ts_sort{1,2}; % in seconds
 
 % Time in seconds
 data.events.idx_t(:,1) = data.events.ts_mod(abs(diff([0; data.events.ts_mod]))>1);
@@ -90,7 +90,6 @@ data.events.idx_t(:,2) = data.events.ts_mod(abs(diff([data.events.ts_mod; 0]))>1
 data.events.idx(:,1) = dsearchn(data.timev,data.events.idx_t(:,1));
 data.events.idx(:,2) = dsearchn(data.timev,data.events.idx_t(:,2));
 
-clear ('data.events.ts_1','data.events.ts_2')
 
 %% Estimating the CS modulating signal
 

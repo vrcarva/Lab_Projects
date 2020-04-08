@@ -22,7 +22,10 @@ function [data, parameters] = Extracting_LFPs_and_events()
 %   -> events         -> External TTls. Events that are detected in a continuous data stream
 %                        _ Supports up to 8 inputs. For digital inputs - labels: 0 - 7. 
 %                        _ ts -> All timestamps
-%                        _ ts_1 / ts_2 .... -> sorted according to the labels
+%                        _ ts_sort .... -> sorted according to the labels
+%                                          each cell column corresponds to a recorded event type
+%                                          within the cell -> lines -> timestamps(seconds)
+
 
 %   "parameters"      ->  Record informations and parameters
 
@@ -159,26 +162,23 @@ for jj = 1:length(parameters.FilesLoaded)
         % Load datafiles (*.continuous), timestamps e record info.
         [data.events.labels, data.events.ts, parameters.events.info] = load_open_ephys_data(fullFileName);
         
-        % Sort Events
-        % Trigger/label 1
-        label1 = 0;
-
-        % Trigger/label 2 
-        label2 = 1;
-
-        % Sort timestamps
-        % Label 1
-        data.events.ts_1 = data.events.ts(data.events.labels(:,1)==label1);
-
-        % Label 2
-        data.events.ts_2 = data.events.ts(data.events.labels(:,1)==label2);
-      
     end
-end                                                   
+end  
 
+% Sort Events
+% Trigger/events labels according to the digital inputs
+labels = 0:7;
+
+% data.events.ts_sort -> each cell column corresponds to a recorded event type
+%                        within the cell -> lines -> timestamps(seconds)
+
+for ii= 1:length(labels)
+    data.events.ts_sort{1,ii} = data.events.ts(data.events.labels(:,1) == labels(ii));
+end
+    
 fprintf('\n Done. \n');
 
 end
 
-%% last update 07/04/2020 - 22:47
-%  listening: Mogwai - Yes! I am long way from home
+%% last update 08/04/2020 - 00:27
+%  listening: Beth Gibbons - Rustin man
