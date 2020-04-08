@@ -1,5 +1,7 @@
 # 3D printing solutions
 
+Project: NEURAL DYNAMICS DURING AUDITORY FEAR CONDITIONING
+
 New informations, images and tutorials will be attached soon.
 
 - Amplifier Box to LM358 - low power dual operational amplifier integrated circuit<br />

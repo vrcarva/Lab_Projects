@@ -1,3 +1,4 @@
+
 %% Correlation and Covariance Matrices betwwen channels
 
 % by Flavio Mourao. Nucleo de Neurociencias - NNC.

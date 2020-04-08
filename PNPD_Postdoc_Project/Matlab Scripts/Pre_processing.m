@@ -1,4 +1,5 @@
-%% Pre processing
+
+%% Data pre-processing
 % (First extract the data using the "Extracting raw LFPs and Events" script)
 
 %   - Define sound epochs
@@ -130,6 +131,7 @@ clear ('picosTSidxs', 'valesTSidxs', 'phiRec', 'xphi', 'yphi', 'qp', 'yrec','ii'
 
 % Concatenate the modulator signal as channel 1 in the decimated data variable
 data.data{1,1} = [data.mod';data.data{1, 1}];
+
 %% Filter Data
 % Filtering by hand (especially the modulated envelope) and/or
 % by the Johnzinho's function (based on EEG_lab): 'fun_myfilters.m' 

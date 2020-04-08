@@ -1,3 +1,4 @@
+
 %% Filter Data
 % Filtering by hand (especially the modulated envelope) and/or
 % by the Johnzinho's function (based on EEG_lab): 'fun_myfilters.m' 
@@ -19,7 +20,7 @@
 parameters.nyquistS = parameters.srate/2;
 
 % parameters.filter frequency band
-parameters.filter.filtbound(1,:) = [51.71 55.71]; % Hz
+parameters.filter.filtbound(1,:) = [50.71 56.71]; % Hz
 
 % transition width
 parameters.filter.trans_width(1,:) = 0.20; % fraction of 1, thus 20%
@@ -70,7 +71,7 @@ clear('jj')
 % Define frequencies cutoff
 
 parameters.filter.deltacutoff     = [1 3];         % 3
-parameters.filter.thetacutoff1    = [4 8];         % 4
+parameters.filter.thetacutoff1    = [4 12];        % 4
 parameters.filter.thetacutoff2    = [9 12];        % 5
 parameters.filter.alphacutoff     = [13 15];       % 6
 parameters.filter.betacutoff      = [16 31];       % 7

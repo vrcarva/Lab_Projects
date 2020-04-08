@@ -108,13 +108,13 @@ clear ('temp','ii','jj')
 %% Plot to check full session. Channels per substrate 
 
 % Choose channel
-ch = 16;
+ch = [3 12 16];
 
 %Define frequencies to plot in each subplot
 steps = diff(short_fft.freq); % according to the fft time window
 
-short_fft.freq2plot = 40:steps(1):70;
-closestfreq = dsearchn(short_fft.freq,short_fft.freq2plot');
+freq2plot = 1:steps(1):14;
+closestfreq = dsearchn(short_fft.freq,freq2plot');
 
 figure
 
@@ -127,8 +127,21 @@ for ii = 1:length(ch)
     xlabel('Time (s)','FontSize',14), ylabel('Frequency (Hz)','FontSize',14)
     xlim([short_fft.time(1) 600])
     colorbar
-    caxis([0 1.5*10^5])
+    caxis([0 8*10^5])
+    
+    z  = max(max(abs(short_fft.data(closestfreq,:,ch(ii)))));
+    zp = repmat (z, 1, length(short_fft.freq(closestfreq)));
+    
+    for jj = 1:length(short_fft.time_idx_t)
+        hold on
+        plot3(short_fft.time_idx_t(jj,1) + zeros(1,length(zp)),freq2plot, zp,'w--','linew',2)
+        plot3(short_fft.time_idx_t(jj,2) + zeros(1,length(zp)),freq2plot, zp,'w--','linew',2)
+
+    end
+
 end 
+
+clear ('ch','steps','freq2plot','closestfreq','ii','z','zp','jj')
 
 %% Plot to check - Pre sound and Sound period
 
@@ -138,8 +151,8 @@ ch = 16;
 %Define frequencies to plot in each subplot
 steps = diff(short_fft.freq); % according to the fft time window
 
-short_fft.freq2plot = 40:steps(1):70;
-closestfreq = dsearchn(short_fft.freq,short_fft.freq2plot');
+freq2plot = 40:steps(1):70;
+closestfreq = dsearchn(short_fft.freq,freq2plot');
 
 %Define time to plot in each subplot
 time2plot1 = [ short_fft.time_idx(:,1),short_fft.time_idx(:,2) ]; % pre sound
@@ -179,7 +192,7 @@ for ii = 1:parameters.NTrials
     title(['Trial: ',num2str(ii)]) 
 end 
 
-clear ('ch','steps','closestfreq','time2plot1','time2plot2')
+clear ('ch','steps','freq2plot','closestfreq','time2plot1','time2plot2')
 
 %% Plot to check - change from baseline
 
@@ -189,8 +202,8 @@ ch = 16;
 %Define frequencies to plot in each subplot
 steps = diff(short_fft.freq); % according to the fft time window
 
-short_fft.freq2plot = 40:steps(1):70;
-closestfreq = dsearchn(short_fft.freq,short_fft.freq2plot');
+freq2plot = 40:steps(1):70;
+closestfreq = dsearchn(short_fft.freq,freq2plot');
 
 %Define time to plot in each subplot
 time2plot1 = [ short_fft.time_idx(:,1),short_fft.time_idx(:,2) ]; % pre sound
@@ -222,7 +235,7 @@ for ii = 1:parameters.NTrials
     title(['Trial: ',num2str(ii)]) 
 end 
 
-clear ('ch','steps','closestfreq','time2plot1','time2plot2')
+clear ('ch','steps','freq2plot','closestfreq','time2plot1','time2plot2')
 %% Plot to check - decibel normalization
 
 % Choose channel
@@ -231,8 +244,8 @@ ch = 16;
 %Define frequencies to plot in each subplot
 steps = diff(short_fft.freq); % according to the fft time window
 
-short_fft.freq2plot = 40:steps(1):70;
-closestfreq = dsearchn(short_fft.freq,short_fft.freq2plot');
+freq2plot = 40:steps(1):70;
+closestfreq = dsearchn(short_fft.freq,freq2plot');
 
 %Define time to plot in each subplot
 time2plot1 = [ short_fft.time_idx(:,1),short_fft.time_idx(:,2) ]; % pre sound
@@ -264,7 +277,7 @@ for ii = 1:parameters.NTrials
     title(['Trial: ',num2str(ii)]) 
 end 
 
-clear ('ch','steps','closestfreq','time2plot1','time2plot2')
+clear ('ch','steps','freq2plot','closestfreq','time2plot1','time2plot2')
 
 %% Plot all trials and mean trials to check
 
@@ -274,8 +287,8 @@ ch = 16;
 %Define frequencies to plot
 steps = diff(short_fft.freq); % frequency steps according to the fft time window
 
-short_fft.freq2plot = 50.7:steps(1):56.7;
-closestfreq = dsearchn(short_fft.freq,short_fft.freq2plot');
+freq2plot = 50.7:steps(1):56.7;
+closestfreq = dsearchn(short_fft.freq,freq2plot');
 
 figure
 suptitle(['Amplitude Spectrum via short-window FFT (window = ' num2str(short_fft.timewin./1000) 's' ' - ' 'overlap = ' num2str(short_fft.overlap) '%)']) 
@@ -300,8 +313,8 @@ colormap jet
 colorbar('Location','eastoutside','YTick',[]);
 caxis([0 1.5*10^5])
 
-clear ('steps','closestfreq','ii','s','jj');
+clear ('steps','freq2plot','closestfreq','ii','s','jj');
 
-%% last update 01/04/2020 - 18:00
-%  listening: Mogwai - Every Country`s Sun
+%% last update 07/04/2020 - 20:43
+%  listening: Alice in Chains - Nutshell
 

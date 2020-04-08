@@ -1,3 +1,4 @@
+
 %% Phase analyses based on Hilbert Transform
 
 % --> circular-statistics-toolbox
@@ -89,15 +90,15 @@ end
 
 clear('ff','X','Y','ch','jj','ii')
 
-%% Extracted relative phase and length of circular variance (PLV) 
+%% Extracts relative phase and length of circular variance (PLV) 
 %  Measure of phase synchronization
 
 % Time window
-hilb.time_window     =  3; % sec.
+hilb.time_window     =  2; % sec.
 hilb.time_window_idx = round(hilb.time_window*parameters.srate);
 
 % Overlap
-hilb.timeoverlap    = .9; % percentage
+hilb.timeoverlap    = .8; % percentage
 overlap = round((hilb.time_window_idx)-(hilb.timeoverlap*hilb.time_window_idx));
 
 % Time epochs
@@ -134,14 +135,14 @@ clear ('overlap','time2save_idx','ii','jj','ll','temp1')
 figure
 
 % choose par channels to compare
-ch = [1 16 ; 12 16 ; 3 16 ; 6 16];
+ch = [3 12];
 
 suptitle({'\Delta Phase over trials';['Time window = ' num2str(hilb.time_window) 's ' '- ' 'Overlap = ' num2str(hilb.timeoverlap*100) '%'];[]}) 
 set(gcf,'color','white')
 
 sb = 1; %subplot number
 
-for ii = 1:length(ch)
+for ii = 1:size(ch,1)
     for jj = 1:parameters.NTrials        
         subplot(length(ch),parameters.NTrials,sb)
         plot(hilb.time_trials, rad2deg(hilb.phase_win_trials{ch(ii,1), ch(ii,2)}(jj,:)),'k','linew',1)
@@ -162,9 +163,9 @@ figure
  suptitle({'\Delta Phase average between trials';['Time window = ' num2str(hilb.time_window) 's ' '- ' 'Overlap = ' num2str(hilb.timeoverlap*100) '%'];[]}) 
  set(gcf,'color','white')
 
-for ii = 1:length(ch)
+for ii = 1:size(ch,1)
     subplot(length(ch)/2,2,ii)
-    plot(hilb.time_trials,-1*(rad2deg(hilb.phase_win_mean_trials{ch(ii,1), ch(ii,2)})),'k','linew',1)
+    plot(hilb.time_trials,(rad2deg(hilb.phase_win_mean_trials{ch(ii,1), ch(ii,2)})),'k','linew',1)
     hold
     plot([0 0],[-180 180],'r--')
     plot([30 30],[-180 180],'r--')
@@ -182,14 +183,14 @@ clear ('ch','sb','ii','jj')
 figure
 
 % choose par channels to compare
-ch = [1 14 ; 10 15 ; 3 16 ; 6 17];
+ch = [3 12];
 
 suptitle({[' PLV over trials'];['Time window = ' num2str(hilb.time_window) 's ' '- ' 'Overlap = ' num2str(hilb.timeoverlap*100) '%'];[]}) 
 set(gcf,'color','white')
 
 sb = 1; %subplot counter
 
-for ii = 1:length(ch)
+for ii = 1:size(ch,1)
     for jj = 1:parameters.NTrials        
         subplot(length(ch),parameters.NTrials,sb)
         plot(hilb.time_trials, hilb.PLV_win_trials{ch(ii,1), ch(ii,2)}(jj,:),'k','linew',1)
@@ -210,7 +211,7 @@ figure
 suptitle({'PLV average between trials';['Time window = ' num2str(hilb.time_window) 's ' '- ' 'Overlap = ' num2str(hilb.timeoverlap*100) '%'];[]}) 
 set(gcf,'color','white')
 
-for ii = 1:length(ch)
+for ii = 1:size(ch,1)
     subplot(length(ch)/2,2,ii)
     plot(hilb.time_trials,hilb.PLV_win_mean_trials{ch(ii,1), ch(ii,2)},'k','linew',1)    
     hold all
@@ -255,11 +256,48 @@ caxis([0 0.5])
 
 clear ('ch','chs','ch_compare')
 
-%% Time vectors to cut and STATS
+%% Cut Time vectors and STATS
 
 % Time index --> 0s: sound sound begins / 30s: sound ends
 hilb.time_zero_idx = dsearchn(hilb.time_trials',0'); % time zero index. Sound Start.
-hilb.time_end_idx = dsearchn(hilb.time_trials',30'); % time  30s index. Sound End.
+hilb.time_end_idx  = dsearchn(hilb.time_trials',30'); % time  30s index. Sound End.
+
+
+% Initialize variables
+hilb.phase_win_trials_Presound = cell(length(hilb.phase_delta_trials),length(hilb.phase_delta_trials));
+hilb.phase_win_trials_Sound    = cell(length(hilb.phase_delta_trials),length(hilb.phase_delta_trials));
+
+hilb.PLV_win_trials_Presound   = cell(length(hilb.phase_delta_trials),length(hilb.phase_delta_trials));
+hilb.PLV_win_trials_Sound      = cell(length(hilb.phase_delta_trials),length(hilb.phase_delta_trials));
+
+% Values for each trial and channels comparisons
+
+for ii = 1:length(hilb.phase_delta_trials)*length(hilb.phase_delta_trials)
+    hilb.phase_win_trials_Presound{ii}   = hilb.phase_win_trials{ii}(:,1:hilb.time_zero_idx-1);               % one value for each trial. Average time during pre sound period
+    hilb.phase_win_trials_Sound{ii}      = hilb.phase_win_trials{ii}(:,hilb.time_zero_idx:hilb.time_end_idx); % one value for each trial. Average time during sound period
+
+    hilb.PLV_win_trials_Presound{ii}    = hilb.PLV_win_trials{ii}(:,1:hilb.time_zero_idx-1);                % one value for each trial. Average time during pre sound period
+    hilb.PLV_win_trials_Sound{ii}       = hilb.PLV_win_trials{ii}(:,hilb.time_zero_idx:hilb.time_end_idx);  % one value for each trial. Average time during sound period
+end
+
+
+% Initialize variables
+hilb.phase_win_mean_trials_Presound = cell(length(hilb.phase_delta_trials),length(hilb.phase_delta_trials));
+hilb.phase_win_mean_trials_Sound    = cell(length(hilb.phase_delta_trials),length(hilb.phase_delta_trials));
+
+hilb.PLV_win_mean_trials_Presound   = cell(length(hilb.phase_delta_trials),length(hilb.phase_delta_trials));
+hilb.PLV_win_mean_trials_Sound      = cell(length(hilb.phase_delta_trials),length(hilb.phase_delta_trials));
+
+% Mean values over time - Total session
+
+for ii = 1:length(hilb.phase_delta_trials)*length(hilb.phase_delta_trials)
+    hilb.phase_win_mean_trials_Presound{ii}   = hilb.phase_win_mean_trials{ii}(:,1:hilb.time_zero_idx-1);               % one value for each timestamp. Average trials during pre sound period
+    hilb.phase_win_mean_trials_Sound{ii}      = hilb.phase_win_mean_trials{ii}(:,hilb.time_zero_idx:hilb.time_end_idx); % one value for each timestamp. Average trials during sound period
+
+    hilb.PLV_win_mean_trials_Presound{ii}    = hilb.PLV_win_mean_trials{ii}(:,1:hilb.time_zero_idx-1);                  % one value for each timestamp. Average trials during pre sound period
+    hilb.PLV_win_mean_trials_Sound{ii}       = hilb.PLV_win_mean_trials{ii}(:,hilb.time_zero_idx:hilb.time_end_idx);    % one value for each timestamp. Average trials during sound period
+end
+
 
 % Initialize variables
 hilb.phase_mean_trials_Presound = cell(length(hilb.phase_delta_trials),length(hilb.phase_delta_trials));
@@ -271,11 +309,11 @@ hilb.PLV_mean_trials_Sound      = cell(length(hilb.phase_delta_trials),length(hi
 % Mean values for each trial and channels comparisons
 
 for ii = 1:length(hilb.phase_delta_trials)*length(hilb.phase_delta_trials)
-    hilb.phase_mean_trials_Presound{ii}   = circ_mean(hilb.phase_win_trials{ii}(:,1:hilb.time_zero_idx-1),[],2);               % one value for each trial. Average time during pre sound period
-    hilb.phase_mean_trials_Sound{ii}      = circ_mean(hilb.phase_win_trials{ii}(:,hilb.time_zero_idx:hilb.time_end_idx),[],2); % one value for each trial. Average time during sound period
+    hilb.phase_mean_trials_Presound{ii}   = circ_mean(hilb.phase_win_trials_Presound{ii},[],2); % one value for each trial. Average time during pre sound period
+    hilb.phase_mean_trials_Sound{ii}      = circ_mean(hilb.phase_win_trials_Sound{ii},[],2);    % one value for each trial. Average time during sound period
 
-    hilb.PLV_mean_trials_Presound{ii}    = mean(hilb.PLV_win_trials{ii}(:,1:hilb.time_zero_idx-1),2);                % one value for each trial. Average time during pre sound period
-    hilb.PLV_mean_trials_Sound{ii}       = mean(hilb.PLV_win_trials{ii}(:,hilb.time_zero_idx:hilb.time_end_idx),2);  % one value for each trial. Average time during sound period
+    hilb.PLV_mean_trials_Presound{ii}    = mean(hilb.PLV_win_trials_Presound{ii},2);  % one value for each trial. Average time during pre sound period
+    hilb.PLV_mean_trials_Sound{ii}       = mean(hilb.PLV_win_trials_Sound{ii},2);     % one value for each trial. Average time during sound period
 end
 
 
@@ -290,7 +328,7 @@ hilb.PLV_Total_mean_Sound      = zeros(length(hilb.phase_delta_trials),length(hi
 for ii = 1:length(hilb.phase_delta_trials)*length(hilb.phase_delta_trials)
     
     hilb.phase_Total_mean_Presound(ii) = circ_mean(hilb.phase_mean_trials_Presound{ii},[],1); % one value for each session. Average trials during pre sound period
-    hilb.phase_Total_mean_Sound(ii)    = circ_mean(hilb.phase_mean_trials_Sound{ii},[],1); % one value for each session. Average trials during pre sound period
+    hilb.phase_Total_mean_Sound(ii)    = circ_mean(hilb.phase_mean_trials_Sound{ii},[],1);    % one value for each session. Average trials during pre sound period
     
     hilb.PLV_Total_mean_Presound(ii)   = mean(hilb.PLV_mean_trials_Presound{ii},1); % one value for each session. Average trials during pre sound period
     hilb.PLV_Total_mean_Sound(ii)      = mean(hilb.PLV_mean_trials_Sound{ii},1);    % one value for each session. Average trials during sound period
@@ -299,32 +337,87 @@ end
 
 clear('ii')
 
-%% Plot all channels Coherence values in a color map - Total Session
-
-% Choose channels to plot
-chs = [2 3 4 5 16];
+%% Plot polar plots - Phase Coherence values - Each trial
 
 figure
+
+% choose par channels to compare
+ch = [3 12];
+
+suptitle({'\Delta Phase average over trials. Pre Sound period';['Time window = ' num2str(hilb.time_window) 's ' '- ' 'Overlap = ' num2str(hilb.timeoverlap*100) '%'];[]}) 
 set(gcf,'color','white')
 
-subplot 121
-imagesc(1:length(chs),1:length(chs),hilb.PLV_Total_mean_Presound(chs,chs))
-xlabel('channels','FontSize',14), ylabel('channels','FontSize',14)
-colorbar
-caxis([0 1])
+sb = 1; %subplot counter
 
-subplot 122
-imagesc(1:length(chs),1:length(chs),hilb.PLV_Total_mean_Sound(chs,chs))
-xlabel('channels','FontSize',14), ylabel('channels','FontSize',14)
-colorbar
-caxis([0 1])
+for ii = 1:size(ch,1)
+    for jj = 1:parameters.NTrials 
+        subplot(length(ch),parameters.NTrials,sb)
 
-clear ('chs')
+        polarplot([zeros(size(hilb.phase_win_trials_Presound{ch(ii,1), ch(ii,2)}(jj,:))), hilb.phase_win_trials_Presound{ch(ii,1), ch(ii,2)}(jj,:)]',repmat([0 1],1,length(hilb.phase_win_trials_Presound{ch(ii,1), ch(ii,2)}(jj,:)))','k');
+        hold all
+        polarplot([0,hilb.phase_mean_trials_Presound{ch(ii,1), ch(ii,2)}(jj)]',[0 1]','Color','[0.6350, 0.0780, 0.1840]','linew',2);
+        
+        sb = sb + 1;
+    end
+end  
 
-%% Plot all channels Phase Coherence values in a color map - Each trial
+figure
+
+suptitle({'\Delta Phase average over trials. Sound period';['Time window = ' num2str(hilb.time_window) 's ' '- ' 'Overlap = ' num2str(hilb.timeoverlap*100) '%'];[]}) 
+set(gcf,'color','white')
+
+sb = 1; %subplot counter
+
+for ii = 1:size(ch,1)
+    for jj = 1:parameters.NTrials 
+        subplot(length(ch),parameters.NTrials,sb)
+
+        polarplot([zeros(size(hilb.phase_win_trials_Sound{ch(ii,1), ch(ii,2)}(jj,:))), hilb.phase_win_trials_Sound{ch(ii,1), ch(ii,2)}(jj,:)]',repmat([0 1],1,length(hilb.phase_win_trials_Sound{ch(ii,1), ch(ii,2)}(jj,:)))','k');
+        hold all
+        polarplot([0,hilb.phase_mean_trials_Sound{ch(ii,1), ch(ii,2)}(jj)]',[0 1]','Color','[0.6350, 0.0780, 0.1840]','linew',2);
+        
+        sb = sb + 1;
+    end
+end
+
+clear ('ii','jj','sb','ch')
+
+%% Plot polar plots - Phase Coherence values - Total over time
+
+figure
+
+% choose par channels to compare
+ch = [1 16 ; 3 16 ; 6 16 ; 12 16];
+
+suptitle({'Total \Delta Phase average over time.';['Time window = ' num2str(hilb.time_window) 's ' '- ' 'Overlap = ' num2str(hilb.timeoverlap*100) '%'];[]}) 
+set(gcf,'color','white')
+
+for ii = 1:length(ch)
+
+    subplot(2,length(ch),ii)
+
+    polarplot([zeros(size(hilb.phase_win_mean_trials_Presound{ch(ii,1), ch(ii,2)})), hilb.phase_win_mean_trials_Presound{ch(ii,1), ch(ii,2)}]',repmat([0 1],1,length(hilb.phase_win_mean_trials_Presound{ch(ii,1), ch(ii,2)}))','k');
+    hold all
+    polarplot([0,hilb.phase_Total_mean_Presound(ch(ii,1), ch(ii,2))]',[0 1]','Color','[0.6350, 0.0780, 0.1840]','linew',2);
+    
+end  
+
+for ii = 1:length(ch)
+
+    subplot(2,length(ch),ii+length(ch))
+
+    polarplot([zeros(size(hilb.phase_win_mean_trials_Sound{ch(ii,1), ch(ii,2)})), hilb.phase_win_mean_trials_Sound{ch(ii,1), ch(ii,2)}]',repmat([0 1],1,length(hilb.phase_win_mean_trials_Sound{ch(ii,1), ch(ii,2)}))','k');
+    hold all
+    polarplot([0,hilb.phase_Total_mean_Sound(ch(ii,1), ch(ii,2))]',[0 1]','Color','[0.6350, 0.0780, 0.1840]','linew',2);
+        
+end
+
+clear ('ii','jj','sb','ch')
+
+%% Plot all channels - Phase Coherence values in a color map - Each trial
 
 % Choose channels to plot
-chs = [2 3 4 5 12];
+chs = [3 6 12 16];
 
 figure
 set(gcf,'color','white')
@@ -354,77 +447,37 @@ for ii = 1:parameters.NTrials
         
 end
 
+clear ('temp1','temp2','chs')
+
+%% Plot all channels - Phase Coherence values in a color map - Total Session
+
+% Choose channels to plot
+chs = [3 6 12 16];
+
+figure
+set(gcf,'color','white')
+
+subplot 121
+imagesc(1:length(chs),1:length(chs),hilb.PLV_Total_mean_Presound(chs,chs))
+xlabel('channels','FontSize',14), ylabel('channels','FontSize',14)
+colorbar
+box off
+caxis([0 1])
+set (gca,'visible','off')
+
+subplot 122
+imagesc(1:length(chs),1:length(chs),hilb.PLV_Total_mean_Sound(chs,chs))
+xlabel('channels','FontSize',14), ylabel('channels','FontSize',14)
+colorbar
+box off
+caxis([0 1])
+set (gca,'visible','off')
+
 clear ('chs')
-%% Plot polar plots
 
-figure
-suptitle({'\Delta Phase average over trials. Sound period';['Time window = ' num2str(hilb.time_window) 's ' '- ' 'Overlap = ' num2str(hilb.timeoverlap*100) '%'];[]}) 
-set(gcf,'color','white')
-
-titles = {'IC   - modulator', 'AMYL - modulator','AMYR - modulator'...
-           'AMYL - IC', 'AMYR - IC', 'AMYR - AMYL'};
-
-sub_ind = 1;
-
-while sub_ind <= parameters.NTrials * size(parameters.combinations,1)
-
-for jj = 1:length(hilb.phase_win_trials)
-    for ii = 1:parameters.NTrials * size(parameters.combinations,1)
-        
-    subplot(6,5,sub_ind)
-    polarplot([zeros(size(hilb.phase_win_trials{jj}(ii,hilb.time_zero_idx:hilb.time_end_idx))), hilb.phase_win_trials{jj}(ii,hilb.time_zero_idx:hilb.time_end_idx)]',repmat([0 1],1,length(hilb.phase_win_trials{jj}(ii,hilb.time_zero_idx:hilb.time_end_idx)))','k');
-    hold all
-    polarplot([0,hilb.phase_mean_trials{2,jj}(ii,1)]',[0 1]','Color','[0.6350, 0.0780, 0.1840]','linew',2);
-    title(['Trial ', num2str(ii)]);
-    
-        if mod(sub_ind,parameters.NTrials) == 0  
-           break
-      
-        end 
-        
-    sub_ind = sub_ind+1; 
-    
-    end
-    sub_ind = sub_ind+1; 
-end
-end
-
-
-figure
-suptitle({'\Delta Phase average over trials. Pre Sound';['Time window = ' num2str(hilb.time_window) 's ' '- ' 'Overlap = ' num2str(hilb.timeoverlap*100) '%'];[]}) 
-set(gcf,'color','white')
-
-titles = {'IC   - modulator', 'AMYL - modulator','AMYR - modulator'...
-           'AMYL - IC', 'AMYR - IC', 'AMYR - AMYL'};
-
-sub_ind = 1;
-
-while sub_ind <= parameters.NTrials * size(parameters.combinations,1)
-
-for jj = 1:length(hilb.phase_win_trials)
-    for ii = 1:parameters.NTrials * size(parameters.combinations,1)
-        
-    subplot(6,5,sub_ind)
-    polarplot([zeros(size(hilb.phase_win_trials{jj}(ii,1:hilb.time_zero_idx-1))), hilb.phase_win_trials{jj}(ii,1:hilb.time_zero_idx-1)]',repmat([0 1],1,length(hilb.phase_win_trials{jj}(ii,1:hilb.time_zero_idx-1)))','k');
-    hold all
-    polarplot([0,hilb.phase_mean_trials{1,jj}(ii,1)]',[0 1]','Color','[0.6350, 0.0780, 0.1840]','linew',2);
-    title(['Trial ', num2str(ii)]);
-    
-        if mod(sub_ind,parameters.NTrials) == 0  
-           break
-      
-        end 
-        
-    sub_ind = sub_ind+1; 
-    
-    end
-    sub_ind = sub_ind+1; 
-end
-end
-
-clear ('ii','jj','sub_ind','titles')
 %%
-% save('G7-R7_pre_MUS','data','filter','hilb','parameters','short_fft')
+% save('')
 
-%% last update 06/04/2020
-%  listening: Early day miners - Placer Found
+%% last update 07/04/2020 - 20:43
+%  listening: Alice in Chains - Nutshell
+

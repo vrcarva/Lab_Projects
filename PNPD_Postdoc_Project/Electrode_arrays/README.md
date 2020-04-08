@@ -1,5 +1,7 @@
 # Electrode arrays
  
+ Project: NEURAL DYNAMICS DURING AUDITORY FEAR CONDITIONING
+ 
 Solutions for a customizable and low cost electrode arrays
 
 New informations, images and tutorials will be attached soon.

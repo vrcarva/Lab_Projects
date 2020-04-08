@@ -1,4 +1,7 @@
-%% Extracting raw LFPs and Events from Open Ephys
+
+function [data, parameters] = Extracting_LFPs_and_events()
+
+% Extracting LFPs and Events from Intan/Open Ephys
 
 % - extract, organize and save data from Intan/Open Ephys:  *.continuous and  *.events
 % - Required function: load_open_ephys_data.m (https://github.com/open-ephys/analysis-tools)<br />
@@ -11,6 +14,7 @@
 %   -> data.raw       -> raw data. Original sample rate
 %                        Columns: Channels x  Rows:Time
 %   -> data.timev_raw -> time vector. Original sample rate
+
 %   -> data.data      -> Cell -> First cell column: signal decimated.
 %                        Each cell: Rows: Channels x Columns: Time
 %   -> data.timev     -> time vector. Signal decimated
@@ -33,8 +37,11 @@
 % Load files (*.continuous -> LFP and *.events -> Events)
 [FilesLoaded,parameters.Path] = uigetfile({'*.continuous; *.events'},'MultiSelect', 'on'); % Define file type *.*
 
+% Define and save number of channels loaded
+parameters.nch = length(cell2mat(strfind(FilesLoaded, 'continuous')));
+
 % Define a struct with files informations from dir organization'
-% Beware ! This organization changes according to the operating system.
+% BEWARE ! This organization changes according to the operating system.
 parameters.FilesLoaded = repmat(struct('name',[],'folder',[],'date',[],'bytes',[],'isdir',[],'datenum',[]), 1, length(FilesLoaded));
 
 % Filename can be organize as a single char or a group char in a cell depending on the number os files selected
@@ -48,23 +55,21 @@ end
 
 % Optional - Uncomment the line below for sort data. Channels based on a specific file properties. 
 % data.Channels = nestedSortStruct(parameters.FilesLoaded,'name',1); % Perform a nested sort of a struct array based on multiple fields. 
-                                                                 % >>> https://uk.mathworks.com/matlabcentral/fileexchange/28573-nested-sort-of-structure-arrays?focused=5166120&tab=function
+                                                                     % >>> https://uk.mathworks.com/matlabcentral/fileexchange/28573-nested-sort-of-structure-arrays?focused=5166120&tab=function
 
 %% Choose factor to LFP down sampling and number of channels recorded
 % - Manually - 
 % parameters.downsampling = 6; 
-% parameters.nch = 16;
 
 % - Request from user -
-prompt        = {'Decimation Factor:','Number of channels recorded:'};
+prompt        = {'Decimation Factor:'};
 dlgtitle      = 'Please enter';
 dims          = [1 30];
-default_input = {'6', '16'};
+default_input = {'6'};
 
 input = inputdlg(prompt,dlgtitle,dims,default_input); %gui
 
 parameters.downsampling = str2double(input{1,1});
-parameters.nch = str2double(input{2,1});
 
 clear ('prompt','dlgtitle','dims','default_input','input')
 
@@ -93,32 +98,52 @@ for jj = 1:length(parameters.FilesLoaded)
         fprintf(1, '\nExtracting LFP from Channel %s\n', channel{2, 1}); 
         
         
-        if      jj == 1 
+        if      jj == 1 && parameters.downsampling == 1
+            
                 % Load datafiles (*.continuous), timestamps e record info.
                 % Raw data - Rows: Time  x Columns: Channels
                 % Remove linear trend (Matlab build function 'detrend'/ Method: 'constant' - subtract the mean from the data)
                 [data_temp, data.timev_raw, info] = load_open_ephys_data(fullFileName);
                 data.raw = detrend(data_temp, 'constant');  % Raw data           
                 parameters.header = info.header;            % Data File Header
-                 
-                % parameters.downsampling with decimate function
+        
+        elseif  jj == 1 && parameters.downsampling > 1
+            
+                % Load datafiles (*.continuous), timestamps e record info.
+                % Raw data - Rows: Time  x Columns: Channels
+                % Remove linear trend (Matlab build function 'detrend'/ Method: 'constant' - subtract the mean from the data)
+                [data_temp, data.timev_raw, info] = load_open_ephys_data(fullFileName);
+                data.raw = detrend(data_temp, 'constant');  % Raw data           
+                parameters.header = info.header;   
+            
+                % Downsampling with Matlab decimate function
                 % data - Rows: Channels x Columns: Time
                 data(1,1).data{1,1}  = zeros(parameters.nch, ceil(length(data.raw)/parameters.downsampling));
-                data.data{1,1}(jj,:) = decimate(data.raw,parameters.downsampling); % parameters.downsampling with Matlab decimate function
+                data.data{1,1}(jj,:) = decimate(data.raw,parameters.downsampling); 
                                            
                 % Organize parameters according to the downsampling information
                 parameters.srate  = info.header.sampleRate./parameters.downsampling;  % Sampling frequency after downsamplig(Hz)
                 parameters.header.downsampling = parameters.downsampling; 
                 
-                % Normalizing time vector - down sampling data
+                % Normalizing time vector from down sampling data
                 data.timev  = (data.timev_raw(1:parameters.downsampling:end)) - min(data.timev_raw);  % Time stamp (sec)
           
-        else 
+        elseif  jj > 1 && parameters.downsampling == 1
             
                 % Load datafiles (*.continuous).
-                % Rows: Channels x Columns: Time
-                % Remove linear trend (function 'detrend')
+                % Rows: Time x Columns: Channels
+                % Remove linear trend (function 'detrend')               
                 data.raw(:,jj)  = detrend(load_open_ephys_data(fullFileName),'constant'); % Raw data
+        
+        elseif  jj > 1 && parameters.downsampling > 1
+                
+                % Load datafiles (*.continuous).
+                % Rows: Time x Columns: Channels
+                % Remove linear trend (function 'detrend')               
+                data.raw(:,jj)  = detrend(load_open_ephys_data(fullFileName),'constant'); % Raw data
+            
+                % Downsampling with Matlab decimate function
+                % data - Rows: Channels x Columns: Time               
                 data.data{1,1}(jj,:) = decimate(data.raw(:,jj),parameters.downsampling);            % parameters.downsampling with Matlab decimate function
       
         end
@@ -151,14 +176,9 @@ for jj = 1:length(parameters.FilesLoaded)
     end
 end                                                   
 
-clear ('label1', 'label2','baseFileName','channel','parameters.downsampling','fExt','FilesLoaded','fullFileName','ii','data_temp','info','jj');                                                     
-
 fprintf('\n Done. \n');
 
+end
 
-%% Save data (-v7.3 flag to store variables > 2GB with compression)
-
-%save('G1_Blue_T_ch16_30k')
-
-%% last update 02/04/2020
-%  listening: Set Fire To Flames - Fading Lights Are Fading
+%% last update 07/04/2020 - 22:47
+%  listening: Mogwai - Yes! I am long way from home
