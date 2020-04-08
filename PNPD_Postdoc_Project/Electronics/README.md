@@ -2,4 +2,4 @@
  
  Project: NEURAL DYNAMICS DURING AUDITORY FEAR CONDITIONING
  
-DYI Solutions to decrease the experiments costs 
+DYI Solutions to find more cost-effective ways
