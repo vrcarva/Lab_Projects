@@ -41,7 +41,7 @@ function [data, parameters] = Extracting_LFPs_and_events()
 [FilesLoaded,parameters.Path] = uigetfile({'*.continuous; *.events'},'MultiSelect', 'on'); % Define file type *.*
 
 % Define and save number of channels loaded
-parameters.nch = length(cell2mat(strfind(FilesLoaded, 'continuous')));
+parameters.nch = sum(contains(FilesLoaded, 'continuous'));
 
 % Define a struct with files informations from dir organization'
 % BEWARE ! This organization changes according to the operating system.
@@ -64,17 +64,22 @@ end
 % - Manually - 
 % parameters.downsampling = 6; 
 
-% - Request from user -
-prompt        = {'Decimation Factor:'};
-dlgtitle      = 'Please enter';
-dims          = [1 30];
-default_input = {'6'};
 
-input = inputdlg(prompt,dlgtitle,dims,default_input); %gui
+if parameters.nch > 0
+    
+   % - Request from user -
+   prompt        = {'Decimation Factor:'};
+   dlgtitle      = 'Please enter';
+   dims          = [1 30];
+   default_input = {'6'};
 
-parameters.downsampling = str2double(input{1,1});
+   input = inputdlg(prompt,dlgtitle,dims,default_input); %gui
 
-clear ('prompt','dlgtitle','dims','default_input','input')
+   parameters.downsampling = str2double(input{1,1});
+
+   clear ('prompt','dlgtitle','dims','default_input','input')
+   
+end
 
 %% Loop to extract data
 % Required function: load_open_ephys_data.m
@@ -162,23 +167,25 @@ for jj = 1:length(parameters.FilesLoaded)
         % Load datafiles (*.continuous), timestamps e record info.
         [data.events.labels, data.events.ts, parameters.events.info] = load_open_ephys_data(fullFileName);
         
+        % Sort Events
+        % Trigger/events labels according to the digital inputs
+        labels = 0:7;
+
+        % data.events.ts_sort -> each cell column corresponds to a recorded event type
+        %                        within the cell -> lines -> timestamps(seconds)
+
+        for ii= 1:length(labels)
+            data.events.ts_sort{1,ii} = data.events.ts(data.events.labels(:,1) == labels(ii));
+        end
+        
     end
 end  
 
-% Sort Events
-% Trigger/events labels according to the digital inputs
-labels = 0:7;
 
-% data.events.ts_sort -> each cell column corresponds to a recorded event type
-%                        within the cell -> lines -> timestamps(seconds)
-
-for ii= 1:length(labels)
-    data.events.ts_sort{1,ii} = data.events.ts(data.events.labels(:,1) == labels(ii));
-end
     
 fprintf('\n Done. \n');
 
 end
 
-%% last update 08/04/2020 - 00:27
-%  listening: Beth Gibbons - Rustin man
+%% last update 08/04/2020 - 21:19
+%  listening: Elliott Smith - Angeles
