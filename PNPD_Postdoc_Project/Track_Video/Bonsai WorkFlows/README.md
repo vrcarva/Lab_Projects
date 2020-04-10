@@ -4,7 +4,7 @@
 Tracks the animal displacement  based on the contrast of the fur with the background and prevents interferences from the record cable.<br />
 
 Outputs:<br />
-             . Image with the displacement map<br /> ( python code by Gonçalo Lopes)<br />
+             . Image with the displacement map ( python code by Gonçalo Lopes)<br />
              . * .csv file with X and Y coordinates<br />
 
 
