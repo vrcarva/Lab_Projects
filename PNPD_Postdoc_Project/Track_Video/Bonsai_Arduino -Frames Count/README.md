@@ -8,6 +8,8 @@ A digital output (PWM) must be chosen to "FLIP" at each nFrames transition. That
 Authors: <br />
 Flávio Afonso Gonçalves Mourão - mourao.fg@gmail.com<br />
 Márcio Flávio Dutra Moraes - mfdm@icb.ufmg.br <br />
-        
 24/04/2019
+
+Bonsai - Ref. paper:
+https://www.frontiersin.org/articles/10.3389/fninf.2015.00007/full
 
