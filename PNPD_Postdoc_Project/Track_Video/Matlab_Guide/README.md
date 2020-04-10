@@ -17,7 +17,7 @@ The code relies on the following functions:<br />
  --> load_open_ephys_data.m --> Open *.continuos from Openephys<br />
        https://github.com/open-ephys/analysis-tools<br />
 
-Authors: 
+Authors:<br />
 Vinicius Carvalho. Nucleo de Neurociencias NNC.<br />
 email: vrcarva@gmail.com<br />
 
